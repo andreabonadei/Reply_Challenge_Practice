@@ -1,12 +1,3 @@
-
-def rettangolizza(ostacolo):
-    minx = min(ostacolo[::2])
-    maxx = max(ostacolo[::2])
-    miny = min(ostacolo[1::2])
-    maxy = max(ostacolo[1::2])
-    return (maxx,maxy,minx,miny)
-
-
 def leggiFile(input):
     """ return xinizio, yinizio, xfine, yfine, lista di ostacoli"""
     fin = open(input, "r")
@@ -25,20 +16,26 @@ def leggiFile(input):
                 max = int(elementi[j])
             coord.append(int(elementi[j]))
         ostacoli.append(coord)
-    griglia = []
-    riga = []
-    for j in range(max - min):
-        riga.append(0)
-    for i in range(max-min):
-        griglia.append(riga)
-    for i in range(len(ostacoli)):
-        maxx,maxy,minx,miny = rettangolizza(ostacoli[i])
-        for j in range(minx,maxx):
-            for k in range(miny,maxy):
-                griglia[k][j] = 1
-    print(griglia)
+
     return x_s, y_s, x_e, y_e, ostacoli
+
+def sign (p1, p2, p3):
+    return (p1[0] - p3[0]) * (p2[1] - p3[1]) - (p2[0] - p3[0]) * (p1[1] - p3[1])
+
+
+def pointInTriangle ( pt, v1, v2, v3):
+
+    b1=False
+    b2=False
+    b3=False
+
+    b1 = sign(pt, v1, v2) < 0.0
+    b2 = sign(pt, v2, v3) < 0.0
+    b3 = sign(pt, v3, v1) < 0.0
+
+    return ((b1 == b2) and (b2 == b3))
+
 
 if __name__ == '__main__':
     x1, y1,x2,y2, ostacoli = leggiFile("input_1.txt")
-    rettangolizza(ostacoli[0])
+
